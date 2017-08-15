@@ -1,1 +1,1 @@
-GET     /:name       com.caffinc.hydrangea.web.controllers.XController.hello(name)
+POST    /devour       com.caffinc.hydrangea.web.controllers.Devour.devour
