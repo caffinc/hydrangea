@@ -1,0 +1,5 @@
+# Test
+language: scala
+script:
+ - sh -c 'cd hydrangea && sbt test'
+

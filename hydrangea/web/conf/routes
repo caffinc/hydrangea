@@ -1,1 +1,6 @@
-POST    /devour       com.caffinc.hydrangea.web.controllers.Devour.devour
+POST    /devour/:stream       com.caffinc.hydrangea.web.controllers.Devour.devourPost(stream)
+GET     /devour/:stream       com.caffinc.hydrangea.web.controllers.Devour.devourGet(stream)
+POST    /devour               com.caffinc.hydrangea.web.controllers.Devour.devourDefault
+GET     /devour               com.caffinc.hydrangea.web.controllers.Devour.devourDefault
+POST    /devour/              com.caffinc.hydrangea.web.controllers.Devour.devourDefault
+GET     /devour/              com.caffinc.hydrangea.web.controllers.Devour.devourDefault
