@@ -3,17 +3,17 @@ version := "1.0"
 scalaVersion := "2.11.11"
 
 libraryDependencies ++= Seq(
-  "org.apache.spark" %% "spark-core" % "2.2.0" //  % "provided"
+  "org.apache.spark" %% "spark-core" % "2.2.0" % "provided"
     exclude("org.slf4j", "*")
     exclude("log4j", "log4j")
     exclude("org.json4s", "*")
     exclude("com.fasterxml.jackson.core", "jackson-databind"),
-  "org.apache.spark" %% "spark-streaming" % "2.2.0" // % "provided"
+  "org.apache.spark" %% "spark-streaming" % "2.2.0" % "provided"
     exclude("org.slf4j", "*")
     exclude("log4j", "log4j")
     exclude("org.json4s", "*")
     exclude("com.fasterxml.jackson.core", "jackson-databind"),
-  "org.apache.spark" %% "spark-streaming-kafka-0-10" % "2.2.0" //% "provided"
+  "org.apache.spark" %% "spark-streaming-kafka-0-10" % "2.2.0" % "provided"
     exclude("org.slf4j", "*")
     exclude("log4j", "log4j")
     exclude("org.json4s", "*")
