@@ -1,6 +1,6 @@
 package com.caffinc.hydrangea.web.services
 
-import java.util.Properties
+import java.util.{Properties, UUID}
 
 import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.LazyLogging
@@ -15,7 +15,7 @@ import scala.util.Try
   * @author Sriram
   */
 object KafkaStreamer extends LazyLogging {
-  lazy val producer: KafkaProducer[String, String] = {
+  private lazy val producer: KafkaProducer[String, String] = {
     logger.info("Loading KafkaProducer config")
     val props = new Properties()
     ConfigFactory.load().getConfig("kafka.producer").entrySet()
@@ -26,6 +26,6 @@ object KafkaStreamer extends LazyLogging {
 
   def streamToKafka(stream: String)(data: JsObject): Try[Unit] = Try {
     logger.debug("Streaming {} to {}", data, stream)
-    producer.send(new ProducerRecord[String, String](stream, data.toString()))
+    producer.send(new ProducerRecord[String, String](stream, UUID.randomUUID().toString, data.toString))
   }
 }

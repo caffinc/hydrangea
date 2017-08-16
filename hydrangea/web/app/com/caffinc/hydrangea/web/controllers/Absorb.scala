@@ -12,14 +12,14 @@ import scala.util.{Failure, Success}
   *
   * @author Sriram
   */
-class Devour extends InjectedController with LazyLogging {
+class Absorb extends InjectedController with LazyLogging {
   /**
-    * Devours messages sent via GET or POST
+    * Absorbs messages sent via GET or POST
     *
     * @param stream Stream to send data to
     * @return Result of the operation
     */
-  def devour(implicit stream: String) = Action { request =>
+  def absorb(implicit stream: String) = Action { request =>
     gracefulStreamToKafka {
       request.body.asJson match {
         case None =>
@@ -31,12 +31,12 @@ class Devour extends InjectedController with LazyLogging {
   }
 
   /**
-    * Catch-all endpoint for /devour when stream is not specified in the URL
+    * Catch-all endpoint for /absorb when stream is not specified in the URL
     *
     * @return BadRequest
     */
-  def devourDefault() = Action {
-    BadRequest(Json.obj("error" -> "Missing stream in devour path"))
+  def reject() = Action {
+    BadRequest(Json.obj("error" -> "Missing stream in absorb path"))
   }
 
   /**
@@ -49,10 +49,10 @@ class Devour extends InjectedController with LazyLogging {
   def gracefulStreamToKafka(json: => JsObject)(implicit stream: String): Result = {
     streamToKafka(stream)(json) match {
       case Success(_) =>
-        Ok(Json.obj("message" -> "Devoured"))
+        Ok(Json.obj("message" -> "Absorbed"))
       case Failure(e) =>
-        logger.error("Stream {} unable to devour {}", stream, json, e)
-        InternalServerError(Json.obj("error" -> "Unable to devour at the moment"))
+        logger.error("Stream {} unable to absorb {}", stream, json, e)
+        InternalServerError(Json.obj("error" -> "Unable to absorb at the moment"))
     }
   }
 }
