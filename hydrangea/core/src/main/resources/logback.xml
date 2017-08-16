@@ -9,12 +9,17 @@
         </layout>
     </appender>
 
-    <logger name="org.apache" level="debug"
+    <logger name="org.apache" level="error"
             additivity="false">
         <appender-ref ref="console" />
     </logger>
 
-    <root level="debug">
+    <logger name="org.spark_project" level="error"
+            additivity="false">
+        <appender-ref ref="console" />
+    </logger>
+
+    <root level="info">
         <appender-ref ref="console" />
     </root>
 
