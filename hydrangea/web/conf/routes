@@ -1,1 +1,6 @@
-GET     /:name       com.caffinc.hydrangea.web.controllers.XController.hello(name)
+POST    /absorb/:stream       com.caffinc.hydrangea.web.controllers.Absorb.absorb(stream)
+GET     /absorb/:stream       com.caffinc.hydrangea.web.controllers.Absorb.absorb(stream)
+POST    /absorb/              com.caffinc.hydrangea.web.controllers.Absorb.reject
+GET     /absorb/              com.caffinc.hydrangea.web.controllers.Absorb.reject
+POST    /absorb               com.caffinc.hydrangea.web.controllers.Absorb.reject
+GET     /absorb               com.caffinc.hydrangea.web.controllers.Absorb.reject
