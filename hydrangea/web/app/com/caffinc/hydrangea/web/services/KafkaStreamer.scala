@@ -2,21 +2,30 @@ package com.caffinc.hydrangea.web.services
 
 import java.util.Properties
 
+import com.typesafe.config.ConfigFactory
+import com.typesafe.scalalogging.LazyLogging
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
 import play.api.libs.json.JsObject
 
-object KafkaStreamer {
-  val props = new Properties()
-  props.put("bootstrap.servers", "localhost:9092")
+import scala.util.Try
 
-  props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer")
-  props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer")
+/**
+  * Writes data to Kafka
+  *
+  * @author Sriram
+  */
+object KafkaStreamer extends LazyLogging {
+  lazy val producer: KafkaProducer[String, String] = {
+    logger.info("Loading KafkaProducer config")
+    val props = new Properties()
+    ConfigFactory.load().getConfig("kafka.producer").entrySet()
+      .forEach(kv => props.put(kv.getKey, kv.getValue.unwrapped()))
+    logger.info("Connecting to Kafka with following config:\n{}", props)
+    new KafkaProducer[String, String](props)
+  }
 
-  val producer = new KafkaProducer[String, String](props)
-
-  def streamToKafka(stream: String)(data: JsObject): Unit = {
-    println(s"Streaming ${data.toString()} to $stream")
+  def streamToKafka(stream: String)(data: JsObject): Try[Unit] = Try {
+    logger.debug("Streaming {} to {}", data, stream)
     producer.send(new ProducerRecord[String, String](stream, data.toString()))
-    producer.flush()
   }
 }
