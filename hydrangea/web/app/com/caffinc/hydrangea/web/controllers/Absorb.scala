@@ -52,7 +52,7 @@ class Absorb extends InjectedController with LazyLogging {
         Ok(Json.obj("message" -> "Absorbed"))
       case Failure(e) =>
         logger.error("Stream {} unable to absorb {}", stream, json, e)
-        InternalServerError(Json.obj("error" -> "Unable to absorb at the moment"))
+        InternalServerError(Json.obj("error" -> "We goofed up. Unable to absorb at the moment."))
     }
   }
 }
