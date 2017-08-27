@@ -12,5 +12,5 @@ trait Filter[T] {
     * @param record Record to filter
     * @return true if record is good, false if it must be removed
     */
-  def filter(implicit record: T): Boolean
+  def filter(record: T): Boolean
 }

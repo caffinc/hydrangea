@@ -1,0 +1,5 @@
+{
+    "username" : "xyz",
+    "password" : "xyz",
+    "recordType" : "test"
+}

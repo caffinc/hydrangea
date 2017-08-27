@@ -1,5 +1,8 @@
 package com.caffinc.hydrangea.web.controllers
 
+import javax.inject.Singleton
+
+import com.caffinc.hydrangea.web.helpers.Messaging._
 import com.caffinc.hydrangea.web.services.KafkaStreamer._
 import com.typesafe.scalalogging.LazyLogging
 import play.api.libs.json.{JsObject, Json}
@@ -12,7 +15,20 @@ import scala.util.{Failure, Success}
   *
   * @author Sriram
   */
+@Singleton
 class Absorb extends InjectedController with LazyLogging {
+
+  /**
+    * TODO: Figure out import issues with cross builds and import [[com.caffinc.hydrangea.common.constants.MessageFields]] instead
+    */
+  object MessageFields {
+    val FIELD_HEADERS = "_headers"
+    val FIELD_QUERY_STRING = "_query"
+    val FIELD_REQUEST_BODY = "_body"
+  }
+
+  import MessageFields._
+
   /**
     * Absorbs messages sent via GET or POST
     *
@@ -23,9 +39,9 @@ class Absorb extends InjectedController with LazyLogging {
     gracefulStreamToKafka {
       request.body.asJson match {
         case None =>
-          Json.obj("_headers" -> request.headers.toMap, "_query" -> request.queryString)
+          Json.obj(FIELD_HEADERS -> request.headers.toMap, FIELD_QUERY_STRING -> request.queryString)
         case Some(data) =>
-          Json.obj("_headers" -> request.headers.toMap, "_query" -> request.queryString, "_body" -> data)
+          Json.obj(FIELD_HEADERS -> request.headers.toMap, FIELD_QUERY_STRING -> request.queryString, FIELD_REQUEST_BODY -> data)
       }
     }
   }
@@ -36,7 +52,7 @@ class Absorb extends InjectedController with LazyLogging {
     * @return BadRequest
     */
   def reject() = Action {
-    BadRequest(Json.obj("error" -> "Missing stream in absorb path"))
+    BadRequest(getError("Missing stream in absorb path"))
   }
 
   /**
@@ -49,10 +65,10 @@ class Absorb extends InjectedController with LazyLogging {
   def gracefulStreamToKafka(json: => JsObject)(implicit stream: String): Result = {
     streamToKafka(stream)(json) match {
       case Success(_) =>
-        Ok(Json.obj("message" -> "Absorbed"))
+        Ok(getMessage("Absorbed"))
       case Failure(e) =>
         logger.error("Stream {} unable to absorb {}", stream, json, e)
-        InternalServerError(Json.obj("error" -> "We goofed up. Unable to absorb at the moment."))
+        InternalServerError(getError("We goofed up. Unable to absorb at the moment."))
     }
   }
 }

@@ -8,10 +8,10 @@ import com.typesafe.scalalogging.LazyLogging
   *
   * @author Sriram
   */
-object NullKeyFilter extends Filter[KafkaRecord] with LazyLogging {
-  def apply(implicit record: KafkaRecord): Boolean = filter
+object FilterNullKey extends Filter[KafkaRecord] with LazyLogging {
+  def apply(record: KafkaRecord): Boolean = filter(record)
 
-  override def filter(implicit record: KafkaRecord): Boolean = {
+  override def filter(record: KafkaRecord): Boolean = {
     if (null != record.key) {
       true
     } else {
