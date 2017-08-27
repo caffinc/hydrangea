@@ -25,5 +25,7 @@ libraryDependencies ++= Seq(
   "org.slf4j" % "jcl-over-slf4j" % "1.7.25",
   "org.json4s" %% "json4s-jackson" % "3.5.3"
     exclude("com.fasterxml.jackson.core", "jackson-databind"),
-  "com.fasterxml.jackson.core" % "jackson-databind" % "2.6.5"
+  "org.json4s" %% "json4s-mongo" % "3.5.3",
+  "com.fasterxml.jackson.core" % "jackson-databind" % "2.6.5",
+  "org.mongodb.scala" %% "mongo-scala-driver" % "2.1.0"
 )

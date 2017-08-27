@@ -26,6 +26,7 @@ object KafkaStreamer extends LazyLogging {
 
   def streamToKafka(stream: String)(data: JsObject): Try[Unit] = Try {
     logger.debug("Streaming {} to {}", data, stream)
-    producer.send(new ProducerRecord[String, String](stream, UUID.randomUUID().toString, data.toString))
+    val topic = "hydrangea_" + stream
+    producer.send(new ProducerRecord[String, String](topic, UUID.randomUUID().toString, data.toString))
   }
 }
