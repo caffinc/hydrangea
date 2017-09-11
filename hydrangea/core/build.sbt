@@ -30,3 +30,9 @@ libraryDependencies ++= Seq(
   "com.fasterxml.jackson.core" % "jackson-databind" % "2.6.5",
   "org.mongodb.scala" %% "mongo-scala-driver" % "2.1.0"
 )
+
+
+assemblyMergeStrategy in assembly := {
+  case PathList("META-INF", xs@_*) => MergeStrategy.discard
+  case x => MergeStrategy.first
+}
