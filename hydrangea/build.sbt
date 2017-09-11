@@ -15,3 +15,8 @@ lazy val web = project
 
 lazy val core = project
   .dependsOn(common_2_11)
+
+lazy val localcore = project
+  .dependsOn(core)
+
+lazy val root = project.in(file(".")).aggregate(common_2_12, common_2_11, web, core, localcore)
