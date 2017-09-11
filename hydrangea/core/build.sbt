@@ -18,6 +18,7 @@ libraryDependencies ++= Seq(
     exclude("log4j", "log4j")
     exclude("org.json4s", "*")
     exclude("com.fasterxml.jackson.core", "jackson-databind"),
+  "org.codehaus.groovy" % "groovy" % "2.6.0-alpha-1",
   "com.typesafe" % "config" % "1.2.1" exclude("org.slf4j", "*"),
   "com.typesafe.scala-logging" %% "scala-logging" % "3.7.2",
   "ch.qos.logback" % "logback-classic" % "1.2.3",

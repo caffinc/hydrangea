@@ -19,3 +19,8 @@ lazy val web = (project in file(".")).enablePlugins(PlayScala)
 routesGenerator := InjectedRoutesGenerator
 
 fork := true
+
+assemblyMergeStrategy in assembly := {
+  case PathList("META-INF", xs@_*) => MergeStrategy.discard
+  case x => MergeStrategy.first
+}
