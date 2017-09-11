@@ -2,6 +2,7 @@ package com.caffinc.hydrangea.core.transformer
 
 import com.caffinc.hydrangea.core.serde.KafkaRecord
 import com.mongodb.{MongoClient, MongoClientURI}
+import com.typesafe.scalalogging.LazyLogging
 import org.bson.Document
 import org.json4s.mongo.JObjectParser
 
@@ -10,8 +11,12 @@ import org.json4s.mongo.JObjectParser
   *
   * @author Sriram
   */
-object StoreRecord extends Transformer[KafkaRecord, (String, String, String)] {
-  private val client: MongoClient = new MongoClient(new MongoClientURI(transformerConfig.getString("storerecord.mongo.uri")))
+object StoreRecord extends Transformer[KafkaRecord, (String, String, String)] with LazyLogging {
+  private val client: MongoClient = {
+    val mongoUri = transformerConfig.getString("storerecord.mongo.uri")
+    logger.info("Connecting to MongoDB with the following config: {}", mongoUri)
+    new MongoClient(new MongoClientURI(mongoUri))
+  }
 
   def apply(record: KafkaRecord): (String, String, String) = transform(record)
 
