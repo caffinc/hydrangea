@@ -2,7 +2,6 @@ package com.caffinc.hydrangea.core.filter
 
 import com.caffinc.hydrangea.core.serde.KafkaRecord
 import com.typesafe.config.ConfigFactory
-import groovy.lang.Binding
 import groovy.util.GroovyScriptEngine
 
 import scala.collection.JavaConverters._
@@ -29,6 +28,7 @@ class CustomFilters extends Filter[KafkaRecord] {
     //        val binding = new Binding()
     //        binding.setProperty("data", record.value)
     //      }
+
     return true
     //    }
   }
